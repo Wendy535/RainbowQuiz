@@ -16,14 +16,17 @@ internal class MainActivity : AppCompatActivity() {
     private val colourForQuiz = chosenColour.padEnd(10, '-')
     private var counter = 1
     private var number: Int = 0
-    private var myTip: String = ""
+    private var tip1 = ""
+    private var tip2 = ""
     private var userGuess = ""
+    private var letter: Char = ' '
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val editTextUserInput: AppCompatEditText = findViewById<AppCompatEditText>(R.id.editTextUserInput)
+        val editTextUserInput: AppCompatEditText =
+            findViewById<AppCompatEditText>(R.id.editTextUserInput)
         val buttonGuess: AppCompatButton = findViewById<AppCompatButton>(R.id.buttonGuess)
         val textViewResult: TextView = findViewById<TextView>(R.id.textView)
         val buttonRestart: Button = findViewById<Button>(R.id.buttonRestart)
@@ -37,13 +40,36 @@ internal class MainActivity : AppCompatActivity() {
             } else {
                 when (counter) {
                     1 -> {
-                        myTip = tipGenerator()
-                        textViewResult.text = myTip
+                        number = (0..9).random()
+                        letter = colourForQuiz[number]
+                        for (num in (0..9)) {
+                            if (num == number) {
+                                tip1 += letter
+                            }
+                            else {
+                                tip1 += '*'
+                            }
+
+                        }
+                        textViewResult.text = tip1
                         counter++
+
                     }
                     2 -> {
-                        myTip = tipGenerator()
-                        textViewResult.text = myTip
+                        number = (0..9).random()
+                        letter = colourForQuiz[number]
+                        for (x in 0..9) {
+                            if (x == number) {
+                                tip2 += letter
+                            }
+                            if (tip1[x] != '*') {
+                                tip2 += tip1[x]
+                            }
+                            else {
+                                tip2 +='*'
+                            }
+                        }
+                        textViewResult.text = tip2
                         counter++
                     }
                     else -> {
@@ -54,25 +80,14 @@ internal class MainActivity : AppCompatActivity() {
         }
 
         buttonRestart.setOnClickListener {
+            chosenColour = rainbow.random()
             counter = 1
             val textViewResult = findViewById<TextView>(R.id.textView)
             textViewResult.text = hiddenColour
+            tip1 = ""
+            tip2 = ""
         }
 
-    }
-
-    private fun tipGenerator(): String {
-        var tip = ""
-        number = (0..9).random()
-        val letter = colourForQuiz[number]
-        for (x in 0..9) {
-            if (x == number) {
-                tip += letter
-            } else {
-                tip += "*"
-            }
-        }
-        return tip
     }
 
 }
