@@ -20,6 +20,7 @@ internal class MainActivity : AppCompatActivity() {
     private var tip2 = ""
     private var userGuess = ""
     private var letter: Char = ' '
+    private var letter2: Char = ' '
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +58,17 @@ internal class MainActivity : AppCompatActivity() {
                     }
                     2 -> {
                         number = (0..9).random()
-                        letter = colourForQuiz[number]
+                        letter2 = colourForQuiz[number]
                         for (x in 0..9) {
                             if (x == number) {
-                                tip2 += letter
+                                if (letter2 == letter) {
+                                    continue
+                                }
+                                else {
+                                    tip2 += letter2
+                                }
                             }
+
                             if (tip1[x] != '*') {
                                 tip2 += tip1[x]
                             }
